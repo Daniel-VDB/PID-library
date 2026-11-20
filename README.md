@@ -1,12 +1,12 @@
 Simple PID library tested using a dc motor.
 
-** Functions **
+*** Functions ***
 
 pid_init: initialises a pid handler
 pid_update: meant to be called at each timestep; returns new output
 target_change: adjusts the target of the pid_handler; resets error_integral
 
-** Safeguards **
+*** Safeguards ***
 1. Output clamping: prevent overloads of systems (e.g. a motor)
 2. integral clamping: integral's contribution is held between same 
 bounds as output to prevent pile ups
