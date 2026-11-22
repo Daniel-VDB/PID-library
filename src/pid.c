@@ -3,23 +3,23 @@
 // Init function for pid handler
 void pid_init(struct PID *memory, float target, float p, float i, float d, float output_maximum, float output_minimum){
     memory->target = target;
-    memory->previous_speed = 0;
+    memory->previous_measurement = 0;
     memory->error_integral = 0;
     memory->start = true;
     
-    memory->proportional_k = fabs(p);
-    memory->integral_k = fabs(i);
-    memory->derivative_k = fabs(d);
+    memory->proportional_k = fabsf(p);
+    memory->integral_k = fabsf(i);
+    memory->derivative_k = fabsf(d);
     memory->output_maximum = output_maximum;
     memory->output_minimum = output_minimum;
 }
 
 // PID update function called at every timestep;
-float pid_update(struct PID *memory, float current_speed, float dt){
+float pid_update(struct PID *memory, float current_measurement, double dt){
     float output;
 
     // Proportional
-    float error = memory->target - current_speed;
+    float error = memory->target - current_measurement;
 
     // Handling timer wrap arounds and micro changes
     if (dt <= 0) {
@@ -54,11 +54,11 @@ float pid_update(struct PID *memory, float current_speed, float dt){
         memory->start = false;
         derivative_error = 0;
     } else {
-        derivative_error = (current_speed - memory->previous_speed) / dt;
+        derivative_error = (current_measurement - memory->previous_measurement) / dt;
     }
     
     // Update memory
-    memory->previous_speed = current_speed;
+    memory->previous_measurement = current_measurement;
     
     // Determine safe return value
     output = (error * memory->proportional_k) + 
