@@ -35,7 +35,7 @@ int main(){
     int count = 0;
     int iteration = 0;
 
-    while (count < 10 && iteration < 500){
+    while (count < 50 && iteration < 500){
         iteration++;
         Sleep(100);
 
